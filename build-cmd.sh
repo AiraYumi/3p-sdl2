@@ -19,8 +19,7 @@ fi
 
 TOP="$(dirname "$0")"
 
-SDL_SOURCE_DIR="SDL2"
-SDL_VERSION=$(sed -n -e 's/^Version: //p' "$TOP/$SDL_SOURCE_DIR/SDL2.spec")
+SDL_SOURCE_DIR="SDL3"
 
 stage="$(pwd)"
 
@@ -45,7 +44,7 @@ case "$AUTOBUILD_PLATFORM" in
     windows*)
         load_vsvars
 
-        mkdir -p "$stage/include/SDL2"
+        mkdir -p "$stage/include/SDL3"
         mkdir -p "$stage/lib/debug"
         mkdir -p "$stage/lib/release"
 
@@ -79,7 +78,7 @@ case "$AUTOBUILD_PLATFORM" in
 
             cp $stage/release/bin/*.dll $stage/lib/release/
             cp $stage/release/lib/*.lib $stage/lib/release/
-            cp $stage/release/include/SDL2/*.h $stage/include/SDL2/
+            cp $stage/release/include/SDL3/*.h $stage/include/SDL3/
         popd
     ;;
     darwin*)
@@ -102,7 +101,7 @@ case "$AUTOBUILD_PLATFORM" in
         DEBUG_LDFLAGS="$ARCH_FLAGS $SDK_FLAGS -Wl,-headerpad_max_install_names"
         RELEASE_LDFLAGS="$ARCH_FLAGS $SDK_FLAGS -Wl,-headerpad_max_install_names"
 
-        mkdir -p "$stage/include/SDL2"
+        mkdir -p "$stage/include/SDL3"
         mkdir -p "$stage/lib/debug"
         mkdir -p "$stage/lib/release"
 
@@ -172,22 +171,22 @@ case "$AUTOBUILD_PLATFORM" in
             cmake --install . --config Release
         popd
 
-        cp -a $PREFIX_RELEASE/include/SDL2/*.* $stage/include/SDL2
+        cp -a $PREFIX_RELEASE/include/SDL3/*.* $stage/include/SDL3
 
         cp -a $PREFIX_DEBUG/lib/*.dylib* $stage/lib/debug
-        cp -a $PREFIX_DEBUG/lib/libSDL2maind.a $stage/lib/debug
+        cp -a $PREFIX_DEBUG/lib/libSDL3_test.a $stage/lib/debug
 
         cp -a $PREFIX_RELEASE/lib/*.dylib* $stage/lib/release
-        cp -a $PREFIX_RELEASE/lib/libSDL2main.a $stage/lib/release
+        cp -a $PREFIX_RELEASE/lib/libSDL3_test.a $stage/lib/release
 
         pushd "${stage}/lib/debug"
-            fix_dylib_id "libSDL2d.dylib"
-            strip -x -S libSDL2d.dylib
+            fix_dylib_id "libSDL3.dylib"
+            strip -x -S libSDL3.dylib
         popd
 
         pushd "${stage}/lib/release"
-            fix_dylib_id "libSDL2.dylib"
-            strip -x -S libSDL2.dylib
+            fix_dylib_id "libSDL3.dylib"
+            strip -x -S libSDL3.dylib
         popd
         ;;
     linux*)
@@ -217,7 +216,7 @@ case "$AUTOBUILD_PLATFORM" in
         DEBUG_CPPFLAGS="-DPIC"
         RELEASE_CPPFLAGS="-DPIC"
 
-        mkdir -p "$stage/include/SDL2"
+        mkdir -p "$stage/include/SDL3"
         mkdir -p "$stage/lib/debug"
         mkdir -p "$stage/lib/release"
 
@@ -273,13 +272,13 @@ case "$AUTOBUILD_PLATFORM" in
             cmake --install . --config Release
         popd
 
-        cp -a $PREFIX_RELEASE/include/SDL2/*.* $stage/include/SDL2
+        cp -a $PREFIX_RELEASE/include/SDL3/*.* $stage/include/SDL3
 
         cp -a $PREFIX_DEBUG/lib/*.so* $stage/lib/debug
-        cp -a $PREFIX_DEBUG/lib/libSDL2maind.a $stage/lib/debug
+        cp -a $PREFIX_DEBUG/lib/libSDL3_test.a $stage/lib/debug
 
         cp -a $PREFIX_RELEASE/lib/*.so* $stage/lib/release
-        cp -a $PREFIX_RELEASE/lib/libSDL2main.a $stage/lib/release
+        cp -a $PREFIX_RELEASE/lib/libSDL3_test.a $stage/lib/release
     ;;
 
     *)
@@ -288,7 +287,8 @@ case "$AUTOBUILD_PLATFORM" in
 esac
 popd
 
+SDL_VERSION=$(sed -n -e 's/^Version: //p' "$TOP/$SDL_SOURCE_DIR/build_release/sdl3.pc")
 
 mkdir -p "$stage/LICENSES"
-cp "$TOP/$SDL_SOURCE_DIR/LICENSE.txt" "$stage/LICENSES/SDL2.txt"
+cp "$TOP/$SDL_SOURCE_DIR/LICENSE.txt" "$stage/LICENSES/SDL3.txt"
 echo "$SDL_VERSION" > "$stage/VERSION.txt"
