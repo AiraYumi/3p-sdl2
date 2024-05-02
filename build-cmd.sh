@@ -251,6 +251,8 @@ case "$AUTOBUILD_PLATFORM" in
             CXXFLAGS="$DEBUG_CXXFLAGS" \
             CPPFLAGS="$DEBUG_CPPFLAGS" \
             cmake .. -GNinja -DCMAKE_BUILD_TYPE="Debug" \
+                -DSDL_WAYLAND=ON \
+                -DSDL_WAYLAND_QT_TOUCH=ON \
                 -DCMAKE_C_FLAGS="$DEBUG_CFLAGS" \
                 -DCMAKE_CXX_FLAGS="$DEBUG_CXXFLAGS" \
                 -DCMAKE_INSTALL_PREFIX=$PREFIX_DEBUG
@@ -265,6 +267,8 @@ case "$AUTOBUILD_PLATFORM" in
             CXXFLAGS="$RELEASE_CXXFLAGS" \
             CPPFLAGS="$RELEASE_CPPFLAGS" \
             cmake .. -GNinja -DCMAKE_BUILD_TYPE="Release" \
+                -DSDL_WAYLAND=ON \
+                -DSDL_WAYLAND_QT_TOUCH=ON \
                 -DCMAKE_C_FLAGS="$RELEASE_CFLAGS" \
                 -DCMAKE_CXX_FLAGS="$RELEASE_CXXFLAGS" \
                 -DCMAKE_INSTALL_PREFIX=$PREFIX_RELEASE
