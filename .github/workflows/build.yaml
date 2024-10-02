@@ -20,7 +20,7 @@ jobs:
         if: runner.os == 'Linux'
         run: >
           sudo apt install -y mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev 
-          libxext-dev libibus-1.0-dev
+          libxext-dev libibus-1.0-dev libdecor-0-dev
           fcitx-libs-dev libudev-dev libunwind-dev 
           libwayland-dev libxkbcommon-dev libpulse-dev ninja-build
           
