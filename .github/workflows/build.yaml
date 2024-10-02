@@ -2,7 +2,7 @@ name: Build
 on:
   pull_request:
   push:
-    branches: [main, actions, update-with-build]
+    branches: [main, actions, update-with*]
     tags: ['v*']
 jobs:
   build:
