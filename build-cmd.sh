@@ -17,6 +17,8 @@ else
     autobuild="$AUTOBUILD"
 fi
 
+ls -l
+
 TOP="$(dirname "$0")"
 
 SDL_SOURCE_DIR="SDL2"
@@ -53,7 +55,9 @@ case "$AUTOBUILD_PLATFORM" in
 
         mkdir -p "build_debug"
         pushd "build_debug"
-            cmake .. -G "$AUTOBUILD_WIN_CMAKE_GEN" -A "$AUTOBUILD_WIN_VSPLATFORM" -DCMAKE_INSTALL_PREFIX=$(cygpath -m $stage)/debug
+            cmake .. -G "$AUTOBUILD_WIN_CMAKE_GEN" -A "$AUTOBUILD_WIN_VSPLATFORM" \
+                -DCMAKE_INSTALL_PREFIX=$(cygpath -m $stage)/debug \
+                -DSDL3_INCLUDE_DIRS="$stage/../SDL3/include"
 
             cmake --build . --config Debug
             cmake --install . --config Debug
@@ -69,7 +73,9 @@ case "$AUTOBUILD_PLATFORM" in
 
         mkdir -p "build_release"
         pushd "build_release"
-            cmake .. -G "$AUTOBUILD_WIN_CMAKE_GEN" -A "$AUTOBUILD_WIN_VSPLATFORM" -DCMAKE_INSTALL_PREFIX=$(cygpath -m $stage)/release
+            cmake .. -G "$AUTOBUILD_WIN_CMAKE_GEN" -A "$AUTOBUILD_WIN_VSPLATFORM" \
+                -DCMAKE_INSTALL_PREFIX=$(cygpath -m $stage)/release \
+                -DSDL3_INCLUDE_DIRS="$stage/../SDL3/include"
 
             cmake --build . --config Release
             cmake --install . --config Release
@@ -105,7 +111,8 @@ case "$AUTOBUILD_PLATFORM" in
                     -DCMAKE_OSX_DEPLOYMENT_TARGET=${MACOSX_DEPLOYMENT_TARGET} \
                     -DCMAKE_MACOSX_RPATH=YES \
                     -DCMAKE_INSTALL_PREFIX="$stage" \
-                    -DCMAKE_INSTALL_LIBDIR="$stage/lib/release/$arch"
+                    -DCMAKE_INSTALL_LIBDIR="$stage/lib/release/$arch" \
+                    -DSDL3_INCLUDE_DIRS="$stage/../SDL3/include"
 
                 cmake --build . --config Release
                 cmake --install . --config Release
@@ -139,7 +146,8 @@ case "$AUTOBUILD_PLATFORM" in
             cmake .. -GNinja -DCMAKE_BUILD_TYPE="Release" \
                 -DCMAKE_C_FLAGS="$(remove_cxxstd $opts)" \
                 -DCMAKE_CXX_FLAGS="$opts" \
-                -DCMAKE_INSTALL_PREFIX=$PREFIX_RELEASE
+                -DCMAKE_INSTALL_PREFIX=$PREFIX_RELEASE \
+                -DSDL3_INCLUDE_DIRS="$stage/../SDL3/include"
 
             cmake --build . --config Release
             cmake --install . --config Release
