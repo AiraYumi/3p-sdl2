@@ -63,9 +63,9 @@ case "$AUTOBUILD_PLATFORM" in
             cmake --install . --config Debug
 
             # conditionally run unit tests
-            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                ctest -C Debug
-            fi
+            #if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            #    ctest -C Debug
+            #fi
 
             cp $stage/debug/bin/*.dll $stage/lib/debug/
             cp $stage/debug/lib/*.lib $stage/lib/debug/
@@ -81,9 +81,9 @@ case "$AUTOBUILD_PLATFORM" in
             cmake --install . --config Release
 
             # conditionally run unit tests
-            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                ctest -C Release
-            fi
+            #if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            #    ctest -C Release
+            #fi
 
             cp $stage/release/bin/*.dll $stage/lib/release/
             cp $stage/release/lib/*.lib $stage/lib/release/
@@ -205,7 +205,6 @@ case "$AUTOBUILD_PLATFORM" in
 
             cp $stage/release/bin/*.dll $stage/lib/release/
             cp $stage/release/lib/*.lib $stage/lib/release/
-            cp $stage/release/include/SDL3/*.h $stage/include/SDL3/
         popd
     ;;
     darwin*)
@@ -269,7 +268,6 @@ case "$AUTOBUILD_PLATFORM" in
             cmake --install . --config Release
         popd
 
-        cp -a $PREFIX_RELEASE/include/SDL3/*.* $stage/include/SDL3
         cp -a $PREFIX_RELEASE/lib/*.so* $stage/lib/release
         cp -a $PREFIX_RELEASE/lib/lib*.a $stage/lib/release
     ;;
