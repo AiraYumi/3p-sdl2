@@ -63,9 +63,9 @@ case "$AUTOBUILD_PLATFORM" in
             cmake --install . --config Debug
 
             # conditionally run unit tests
-            #if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-            #    ctest -C Debug
-            #fi
+            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+                ctest -C Debug
+            fi
 
             cp $stage/debug/bin/*.dll $stage/lib/debug/
             cp $stage/debug/lib/*.lib $stage/lib/debug/
@@ -81,9 +81,9 @@ case "$AUTOBUILD_PLATFORM" in
             cmake --install . --config Release
 
             # conditionally run unit tests
-            #if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-            #    ctest -C Release
-            #fi
+            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+                ctest -C Release
+            fi
 
             cp $stage/release/bin/*.dll $stage/lib/release/
             cp $stage/release/lib/*.lib $stage/lib/release/
