@@ -65,6 +65,7 @@ case "$AUTOBUILD_PLATFORM" in
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
                 ctest --test-dir . -C Debug
+                cat Testing/Temporary/LastTest.log
             fi
 
             cp $stage/debug/bin/*.dll $stage/lib/debug/
@@ -83,6 +84,7 @@ case "$AUTOBUILD_PLATFORM" in
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
                 ctest --test-dir . -C Release
+                cat Testing/Temporary/LastTest.log
             fi
 
             cp $stage/release/bin/*.dll $stage/lib/release/
